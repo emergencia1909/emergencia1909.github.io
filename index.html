@@ -1,547 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Respaldo Personal</title>
-  <style>
-    /* Colors */
-    :root {
-      --bg-dark: #1B1B1B;
-      --color-white: #E7E5D9;
-      --color-gray: #5F5E5A;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página de Emergencia</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #1B1B1B;
+            color: #E7E5D9;
+            font-family: Helvetica;
+            text-align: center;
+        }
+
+        /* Pantalla de contraseña */
+        #login {
+            margin-top: 150px;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .input-box {
+            margin-top: 50px;
+        }
+
+        input {
+            background-color: transparent;
+            border: 2px solid #E7E5D9;
+            padding: 14px 20px;
+            font-size: 26px;
+            color: #E7E5D9;
+            border-radius: 8px;
+            width: 2	00px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        input::placeholder {
+            color: #E7E5D9;
+            opacity: 0.5;
+            text-align: center;
+
+        }
+
+    .texto-opaco {
+      opacity: 0.5; /* Aplica opacidad solo al texto */
     }
 
-    * {
-      box-sizing: border-box;
-    }
+        button {
+            margin-top: 25px;
+            padding: 12px 28px;
+            background-color: transparent;
+            border: 2.5px solid #E7E5D9;
+            color: #E7E5D9;
+            font-size: 22px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--color-white);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    h1 {
-      font-weight: 900;
-      font-size: 2.4rem;
-      margin: 0 0 20px 0;
-      color: var(--color-white);
-      text-align: center;
-    }
+        button:hover {
+            background-color: #E7E5D9;
+            color: #1B1B1B;
+        }
 
-    /* Common horizontal divider */
-    .divider {
-      border-top: 2px solid var(--color-gray);
-      margin: 12px 0 16px;
-    }
+        /* Sección de números */
+        #numeros {
+            display: none;
+            margin-top: 50px;
+        }
 
-    /* --- Keypad Screen --- */
-    #screen-keypad {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 18px;
-    }
-    #inputCode {
-      width: 100%;
-      height: 50px;
-      background: transparent;
-      border: 2.5px solid var(--color-white);
-      border-radius: 16px;
-      outline: none;
-      font-size: 2rem;
-      font-weight: 700;
-      padding: 0 12px;
-      color: var(--color-white);
-      letter-spacing: 2px;
-      text-align: center;
-      user-select: none;
-    }
+        .lista {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            text-align: left;
+            margin-top: 25px;
+        }
 
-    #keypad {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      width: 100%;
-    }
-    .key {
-      border: 2.5px solid var(--color-white);
-      border-radius: 16px;
-      font-weight: 900;
-      font-size: 2rem;
-      background: transparent;
-      color: var(--color-white);
-      padding: 24px 0;
-      cursor: pointer;
-      user-select: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background-color 0.2s ease;
-    }
-    .key:active {
-      background-color: var(--color-gray);
-      color: var(--bg-dark);
-    }
+        .contacto {
+            padding: 25px 0px;
+            border-bottom: 2.5px solid #81807A;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.25s;
+            font-size: 22px;
 
-    #enterKey, #backspaceKey {
-      grid-column: span 2;
-      font-size: 1.6rem;
-      border-radius: 16px;
-      font-weight: 900;
-    }
-    #backspaceKey {
-      grid-column: span 1;
-      font-size: 1.6rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        }
 
-    /* --- Numbers Section --- */
-    #section-numeros {
-      display: none;
-      flex-direction: column;
-    }
-    #section-numeros h1 {
-      margin-bottom: 12px;
-    }
-    .contact {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 1.15rem;
-      border-top: 2px solid var(--color-gray);
-      padding: 10px 0;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.15s ease;
-    }
-    .contact:first-of-type {
-      border-top: none;
-    }
-    .contact:hover {
-      background-color: var(--color-gray);
-      color: var(--bg-dark);
-    }
-    .contact .name {
-      flex: 1;
-    }
-    .contact .phone {
-      color: var(--color-gray);
-      font-weight: 600;
-      user-select: text;
-      font-size: 1rem;
-    }
+        .contacto:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    /* --- Agregado Section --- */
-    #section-agregado {
-      display: none;
-      flex-direction: column;
-    }
-    #section-agregado h1 {
-      margin-bottom: 12px;
-    }
-    .menu-item {
-      font-weight: 700;
-      font-size: 1.3rem;
-      border-top: 2px solid var(--color-gray);
-      padding: 12px 0;
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      color: var(--color-white);
-      transition: color 0.15s ease;
-    }
-    .menu-item:first-of-type {
-      border-top: none;
-    }
-    .menu-item:hover {
-      color: var(--color-gray);
-    }
+        /* Botón regresar */
+        #regresar {
+            margin-top: 45px;
+            padding: 12px 28px;
+            background-color: transparent;
+            border: 2.5px solid #E7E5D9;
+            color: #E7E5D9;
+            font-size: 22px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
 
-    /* --- Archivos Section --- */
-    #section-archivos {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    #section-archivos h1 {
-      margin-bottom: 40px;
-      text-align: center;
-      font-size: 2.4rem;
-      font-weight: 900;
-    }
-    #downloadBtn {
-      width: 90px;
-      height: 90px;
-      border: 2.5px solid var(--color-white);
-      border-radius: 18px;
-      background: transparent;
-      color: var(--color-white);
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 3.6rem;
-      user-select: none;
-      transition: background-color 0.2s ease;
-    }
-    #downloadBtn:hover {
-      background-color: var(--color-gray);
-      color: var(--bg-dark);
-    }
+        #regresar:hover {
+            background-color: #E7E5D9;
+            color: #1B1B1B;
+        }
 
-    /* Down arrow icon for download button */
-    #downloadBtn::before {
-      content: "↓";
-      user-select: none;
-    }
+        /* Ruta a casa */
+        .ruta {
+            margin-top: 70px;
+            font-size: 48px;
+            font-weight: bold;
+        }
+    </style>
 
-    /* --- Claves Section --- */
-    #section-claves {
-      display: none;
-      flex-direction: column;
-    }
-    #section-claves h1 {
-      margin-bottom: 12px;
-    }
-    .clave-item {
-      display: flex;
-      justify-content: space-between;
-      border-top: 2px solid var(--color-gray);
-      padding: 10px 8px;
-      user-select: none;
-    }
-    .clave-item:first-of-type {
-      border-top: none;
-    }
-    .clave-item > div {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .clave-item .title {
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-    .clave-item .email {
-      font-weight: 600;
-      color: var(--color-gray);
-      font-size: 0.9rem;
-      user-select: text;
-    }
-    .clave-item .password {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--color-gray);
-      user-select: text;
-      align-self: center;
-    }
+    <script>
+        function acceder() {
+            const clave = document.getElementById("pass").value;
 
-    /* Navigation Button to go back to keypad */
-    .btn-back {
-      margin-top: 24px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--color-white);
-      background-color: transparent;
-      border: 2.5px solid var(--color-white);
-      padding: 10px 16px;
-      border-radius: 16px;
-      cursor: pointer;
-      align-self: center;
-      user-select: none;
-      transition: background-color 0.2s ease;
-    }
-    .btn-back:hover {
-      background-color: var(--color-gray);
-      color: var(--bg-dark);
-    }
-  </style>
+            if (clave === "654125875369") {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("numeros").style.display = "block";
+            } else {
+                alert("Código no válido");
+            }
+        }
+
+        function regresar() {
+            location.reload();
+        }
+    </script>
+
 </head>
 <body>
 
-  <!-- Keypad Screen -->
-  <section id="screen-keypad" aria-label="Pantalla de entrada de código">
-    <input type="text" id="inputCode" aria-label="Entrada de código" readonly />
-    <div id="keypad" role="application" aria-label="Teclado numérico">
-      <button class="key" data-value="1" aria-label="Número 1">1</button>
-      <button class="key" data-value="2" aria-label="Número 2">2</button>
-      <button class="key" data-value="3" aria-label="Número 3">3</button>
-      <button class="key" data-value="4" aria-label="Número 4">4</button>
-      <button class="key" data-value="5" aria-label="Número 5">5</button>
-      <button class="key" data-value="6" aria-label="Número 6">6</button>
-      <button class="key" data-value="7" aria-label="Número 7">7</button>
-      <button class="key" data-value="8" aria-label="Número 8">8</button>
-      <button class="key" data-value="9" aria-label="Número 9">9</button>
-      <button class="key" data-value="*" aria-label="Asterisco">*</button>
-      <button class="key" data-value="0" aria-label="Número 0">0</button>
-      <button class="key" data-value="#" aria-label="Almohadilla">#</button>
-      <button id="enterKey" aria-label="Entrar">Entrar</button>
-      <button id="backspaceKey" aria-label="Borrar último carácter (retroceso)">←</button>
-    </div>
-  </section>
+    <!-- PANTALLA DE CONTRASEÑA -->
+    <div id="login">
+        <h1><strong>Contraseña</strong></h1>
 
-  <!-- Agregado Section -->
-  <section id="section-agregado" aria-label="Pantalla Agregado">
-    <h1>Agregado</h1>
-    <div class="menu-item" data-go="numeros" tabindex="0">01<span>Números</span></div>
-    <div class="menu-item" data-go="archivos" tabindex="0">02<span>Archivos</span></div>
-    <div class="menu-item" data-go="claves" tabindex="0">03<span>Claves</span></div>
-    <button class="btn-back" type="button" aria-label="Volver al teclado">Volver</button>
-  </section>
+        <div class="input-box">
+            <input type="password" id="pass" placeholder="**************">
+        </div>
 
-  <!-- Números Section -->
-  <section id="section-numeros" aria-label="Contactos telefónicos">
-    <h1>Números</h1>
-    <div class="contact" tabindex="0" data-phone="+522283123524" aria-label="Llamar David al número +52 228 312 3524">
-      <span class="name">David</span>
-      <span class="phone">+52 228 312 3524</span>
+        <button onclick="acceder()">Entrar</button>
     </div>
-    <div class="contact" tabindex="0" data-phone="+522281567186" aria-label="Llamar Adriana al número +52 228 156 7186">
-      <span class="name">Adriana</span>
-      <span class="phone">+52 228 156 7186</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522283611513" aria-label="Llamar Mónica al número +52 228 361 1513">
-      <span class="name">Mónica</span>
-      <span class="phone">+52 228 361 1513</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522299848615" aria-label="Llamar Eduardo al número +52 229 984 8615">
-      <span class="name">Eduardo</span>
-      <span class="phone">+52 229 984 8615</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522284106817" aria-label="Llamar Sergio al número +52 228 410 6817">
-      <span class="name">Sergio</span>
-      <span class="phone">+52 228 410 6817</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522281245180" aria-label="Llamar Eduardo al número +52 228 124 5180">
-      <span class="name">Eduardo</span>
-      <span class="phone">+52 228 124 5180</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522282972364" aria-label="Llamar Héctor al número +52 228 297 2364">
-      <span class="name">Héctor</span>
-      <span class="phone">+52 228 297 2364</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522281476572" aria-label="Llamar Óscar al número +52 228 147 6572">
-      <span class="name">Óscar</span>
-      <span class="phone">+52 228 147 6572</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522282884056" aria-label="Llamar Yolanda al número +52 228 288 4056">
-      <span class="name">Yolanda</span>
-      <span class="phone">+52 228 288 4056</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522281257340" aria-label="Llamar Aldo al número +52 228 125 7340">
-      <span class="name">Aldo</span>
-      <span class="phone">+52 228 125 7340</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522281781492" aria-label="Llamar Betsabe al número +52 228 178 1492">
-      <span class="name">Betsabe</span>
-      <span class="phone">+52 228 178 1492</span>
-    </div>
-    <div class="contact" tabindex="0" data-phone="+522283412324" aria-label="Llamar Gemma al número +52 228 341 2324">
-      <span class="name">Gemma</span>
-      <span class="phone">+52 228 341 2324</span>
-    </div>
-    <button class="btn-back" type="button" aria-label="Volver al teclado">Volver</button>
-  </section>
 
-  <!-- Archivos Section -->
-  <section id="section-archivos" aria-label="Sección de archivos para descargar">
-    <h1>Archivos</h1>
-    <button id="downloadBtn" aria-label="Descargar archivo comprimido ZIP"></button>
-    <button class="btn-back" type="button" aria-label="Volver al teclado">Volver</button>
-  </section>
+    <!-- PANTALLA DE NÚMEROS -->
+    <div id="numeros">
+        <h1><strong>Números</strong></h1>
 
-  <!-- Claves Section -->
-  <section id="section-claves" aria-label="Sección de claves de acceso">
-    <h1>Claves</h1>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">HBO Max</span>
-        <span class="email">Ohs7@outlook.com</span>
-      </div>
-      <div class="password">Max1235813</div>
+        <div class="lista">
+
+            <div class="contacto" onclick="location.href='tel:+522283123524'">
+                <span><strong>David</strong></span><span><span class="texto-opaco">+52 228 312 3524</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522281567186'">
+                <span><strong>Adriana</strong></span><span><span class="texto-opaco">+52 228 156 7186</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522283611513'">
+                <span><strong>Mónica</strong></span><span><span class="texto-opaco">+52 228 361 1513</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522299848615'">
+                <span><strong>Eduardo</strong></span><span><span class="texto-opaco">+52 229 984 8615</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522284106817'">
+                <span><strong>Sergio</strong></span><span><span class="texto-opaco">+52 228 410 6817</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522281245180'">
+                <span><strong>Eduardo</strong></span><span><span class="texto-opaco">+52 228 124 5180</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522282972364'">
+                <span><strong>Héctor</strong></span><span><span class="texto-opaco">+52 228 297 2364</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522281476572'">
+                <span><strong>Óscar</strong></span><span><span class="texto-opaco"> +52 228 147 6572</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522282884056'">
+                <span><strong>Yolanda</strong></span><span><span class="texto-opaco">+52 228 288 4056</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522281257340'">
+                <span><strong>Aldo</strong></span><span><span class="texto-opaco">+52 228 125 7340</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522281781492'">
+                <span><strong>Betsabe</strong></span><span><span class="texto-opaco">+52 228 178 1492</span></span>
+            </div>
+
+            <div class="contacto" onclick="location.href='tel:+522283412324'">
+                <span><strong>Gemma</strong></span><span><span class="texto-opaco">+52 228 341 2324</span></span>
+            </div>
+
+        </div>
+
+        <div class="ruta"><strong>
+            <a href="https://www.google.com.mx/maps/dir//19.497249,-96.852978" style="color:#E7E5D9; text-decoration:none;">
+                Ruta a casa
+            </a>
+        </strong></div>
+
+        <button id="regresar" onclick="regresar()">Volver</button>
+
     </div>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">Spotify</span>
-        <span class="email">Dhg1909@outlook.com</span>
-      </div>
-      <div class="password">DavidH.G.1909</div>
-    </div>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">Google Principal</span>
-        <span class="email">DavidH.G.1909@gmail.com</span>
-      </div>
-      <div class="password">DavidH.G.1909</div>
-    </div>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">Google Secundario</span>
-        <span class="email">Escdhg1909@gmail.com</span>
-      </div>
-      <div class="password">DavidH.G.1909</div>
-    </div>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">Google Respaldo</span>
-        <span class="email">Respaldodhg1909@gmail.com</span>
-      </div>
-      <div class="password">DavidH.G.1909</div>
-    </div>
-    <div class="clave-item" tabindex="0">
-      <div>
-        <span class="title">Instagram</span>
-        <span class="email">Dhg1909</span>
-      </div>
-      <div class="password">importa?</div>
-    </div>
-    <button class="btn-back" type="button" aria-label="Volver al teclado">Volver</button>
-  </section>
 
-  <script>
-    (() => {
-      const codeInput = document.getElementById('inputCode');
-      const keypad = document.getElementById('keypad');
-      const enterKey = document.getElementById('enterKey');
-      const backspaceKey = document.getElementById('backspaceKey');
-
-      // Sections by id
-      const screenKeypad = document.getElementById('screen-keypad');
-      const sectionAgregado = document.getElementById('section-agregado');
-      const sectionNumeros = document.getElementById('section-numeros');
-      const sectionArchivos = document.getElementById('section-archivos');
-      const sectionClaves = document.getElementById('section-claves');
-
-      // Back buttons on all sections
-      const backButtons = document.querySelectorAll('.btn-back');
-
-      // File download link - We simulate with a sample external zip URL since no zip was given
-      // MODIFICACIÓN CLAVE: Cambiar esta URL a la de Google Drive
-      const zipFileURL = "https://drive.google.com/file/d/1xggXho1JREwpfkzNw6Yr2HMiOthINWA9/view?usp=sharing";
-
-      // Codes and corresponding section ids
-      const codesMap = {
-        "*00#654125875369*": "agregado",
-        "*01#654125875369*": "numeros",
-        "*02#654125875369*": "archivos",
-        "*03#654125875369*": "claves"
-      };
-
-      // Show only one main section at a time
-      function showSection(sectionId) {
-        // Hide all sections first
-        screenKeypad.style.display = "none";
-        sectionAgregado.style.display = "none";
-        sectionNumeros.style.display = "none";
-        sectionArchivos.style.display = "none";
-        sectionClaves.style.display = "none";
-
-        switch (sectionId) {
-          case "agregado": sectionAgregado.style.display = "flex"; break;
-          case "numeros": sectionNumeros.style.display = "flex"; break;
-          case "archivos": sectionArchivos.style.display = "flex"; break;
-          case "claves": sectionClaves.style.display = "flex"; break;
-          default:
-            screenKeypad.style.display = "flex";
-        }
-      }
-
-      // Initialize by showing keypad screen
-      showSection();
-
-      // Add digit/char to inputCode value
-      keypad.addEventListener("click", (ev) => {
-        const btn = ev.target.closest("button.key");
-        if (!btn) return;
-        const val = btn.dataset.value;
-        codeInput.value += val;
-      });
-      
-      // Backspace functionality
-      backspaceKey.addEventListener("click", () => {
-        codeInput.value = codeInput.value.slice(0, -1);
-      });
-
-      // Enter key pressed - check code and navigate
-      enterKey.addEventListener("click", () => {
-        const code = codeInput.value;
-        if (codesMap.hasOwnProperty(code)) {
-          showSection(codesMap[code]);
-        } else {
-          alert("Código no válido");
-        }
-        codeInput.value = "";
-      });
-
-      // Add keyboard accessibility to menu items "Agregado"
-      sectionAgregado.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const goTo = item.dataset.go;
-          showSection(goTo);
-        });
-        item.addEventListener('keydown', e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            const goTo = item.dataset.go;
-            showSection(goTo);
-          }
-        });
-      });
-
-      // Back buttons click to go back to keypad
-      backButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          showSection();
-          codeInput.value = "";
-        });
-      });
-
-      // Contact click to call in Numbers section
-      sectionNumeros.querySelectorAll('.contact').forEach(contact => {
-        contact.addEventListener('click', () => {
-          const phone = contact.dataset.phone;
-          if (phone) {
-            // Attempt to open phone call on device
-            window.location.href = `tel:${phone}`;
-          }
-        });
-        contact.addEventListener('keydown', e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            const phone = contact.dataset.phone;
-            if (phone) {
-              window.location.href = `tel:${phone}`;
-            }
-          }
-        });
-      });
-
-      // Download button click for Archivo section
-      const downloadBtn = document.getElementById('downloadBtn');
-      downloadBtn.addEventListener('click', () => {
-        // MODIFICACIÓN CLAVE: Redirigir directamente a la URL de Google Drive
-        window.location.href = zipFileURL;
-      });
-    })();
-  </script>
 </body>
 </html>
