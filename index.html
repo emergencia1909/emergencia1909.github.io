@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1909</title>
+    <title>Emergencia 1909</title>
 
     <style>
         * {
             box-sizing: border-box;
+        }
+
+        html {
+            font-size: clamp(14px, 2.2vw, 18px);
         }
 
         body {
@@ -17,30 +21,32 @@
             font-family: "Courier New", Courier, monospace;
             text-align: center;
             min-height: 100vh;
-            padding: 30px 15px;
-            font-size: 16px;
+            padding: clamp(15px, 5vw, 40px);
+            font-size: 1em;
         }
 
         /* Pantalla de contraseña */
         #login {
-            margin-top: 80px;
+            margin-top: clamp(40px, 12vh, 120px);
             min-height: 80vh;
             cursor: pointer;
         }
 
         pre.ascii-title {
+            font-family: "Courier New", Courier, monospace;
             color: #FFFFFF;
-            font-size: 12px;
+            font-size: clamp(3px, 1.9vw, 10px);
             line-height: 1.1;
             text-shadow: 0 0 6px rgba(255,255,255,0.6);
-            margin-bottom: 30px;
+            margin: 0 auto clamp(15px, 4vh, 40px);
             white-space: pre;
             display: inline-block;
+            text-align: left;
             cursor: default;
         }
 
         .input-box {
-            margin-top: 25px;
+            margin-top: clamp(15px, 4vh, 30px);
             cursor: default;
         }
 
@@ -48,13 +54,13 @@
             background-color: transparent;
             border: none;
             border-bottom: 1px solid #FFFFFF;
-            padding: 14px 10px;
-            font-size: 16px;
+            padding: clamp(10px, 2vh, 16px) 10px;
+            font-size: 1em;
             color: #FFFFFF;
             border-radius: 0;
-            width: 220px;
+            width: clamp(180px, 60vw, 260px);
             text-align: center;
-            letter-spacing: 8px;
+            letter-spacing: clamp(4px, 1.5vw, 8px);
             font-family: "Courier New", Courier, monospace;
         }
 
@@ -71,16 +77,16 @@
 
         .texto-opaco {
             opacity: 0.55;
-            font-size: 16px;
+            font-size: 1em;
         }
 
         button {
-            margin-top: 25px;
+            margin-top: clamp(15px, 4vh, 30px);
             padding: 2px 6px;
             background-color: transparent;
             border: none;
             color: #FFFFFF;
-            font-size: 16px;
+            font-size: 1em;
             cursor: pointer;
             font-family: "Courier New", Courier, monospace;
             letter-spacing: 3px;
@@ -96,17 +102,17 @@
         /* Sección de números */
         #numeros {
             display: none;
-            margin-top: 40px;
+            margin-top: clamp(20px, 6vh, 50px);
             min-height: 80vh;
             cursor: pointer;
         }
 
         h1 {
-            font-size: 16px;
+            font-size: 1em;
             font-weight: bold;
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin: 20px 0;
+            margin: clamp(10px, 3vh, 25px) 0;
         }
 
         .lista {
@@ -114,19 +120,19 @@
             max-width: 420px;
             margin: auto;
             text-align: left;
-            margin-top: 25px;
+            margin-top: clamp(15px, 4vh, 30px);
             border-top: 1px solid #444444;
             cursor: default;
         }
 
         .contacto {
-            padding: 16px 12px;
+            padding: clamp(10px, 3vh, 18px) 12px;
             border-bottom: 1px solid #444444;
             display: flex;
             justify-content: space-between;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 16px;
+            font-size: 1em;
         }
 
         .contacto:hover {
@@ -136,7 +142,7 @@
 
         /* Sección Archivo / Casa */
         .seccion-extra {
-            margin-top: 50px;
+            margin-top: clamp(30px, 8vh, 60px);
             padding-top: 0;
             cursor: default;
         }
@@ -146,7 +152,7 @@
             color: #FFFFFF;
             text-decoration: none;
             padding: 2px 6px;
-            font-size: 16px;
+            font-size: 1em;
             letter-spacing: 3px;
             text-transform: uppercase;
             transition: 0.2s;
@@ -162,7 +168,7 @@
         }
 
         .casa {
-            margin-top: 12px;
+            margin-top: clamp(8px, 2vh, 14px);
         }
     </style>
 
@@ -217,7 +223,7 @@ EAAAAAAAAAAAAAAAAAAAAW   AAI   IAAAAAAAAAAA1909AAAAAAAAAAAE   1AAAAA   rAAAAAAAA
 EAAAAAAAAAAAAAAAAAAAAW   AAI   IAAAAAAAAAAAAAAAAAAAAAAAAAAE   1AAAAAv   VAAAAAAAAAAAAAAAAA
 RAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAIv              IAAAAI
  NAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAER6000000000WEAAAAI 
-   WIAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAE    IAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAERm  </pre>
+   WIAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAE    IAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAERm</pre>
 
         <div class="input-box" onclick="event.stopPropagation()">
             <input type="text" id="pass" placeholder="Contraseña" oninput="maskInput(event)" autocomplete="off" inputmode="numeric" maxlength="12">
