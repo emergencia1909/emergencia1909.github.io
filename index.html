@@ -3,129 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergencia !909</title>
+    <title>Emergencia 1909</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            background-color: #1B1B1B;
-            color: #E7E5D9;
-            font-family: Helvetica;
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: "Courier New", Courier, monospace;
             text-align: center;
+            min-height: 100vh;
+            padding: 30px 15px;
+            font-size: 16px;
         }
 
         /* Pantalla de contraseña */
         #login {
-            margin-top: 150px;
+            margin-top: 80px;
+            min-height: 80vh;
+            cursor: pointer;
         }
 
-        h1 {
-            font-size: 50px;
-            font-weight: bold;
+        pre.ascii-title {
+            color: #FFFFFF;
+            font-size: 12px;
+            line-height: 1.1;
+            text-shadow: 0 0 6px rgba(255,255,255,0.6);
+            margin-bottom: 30px;
+            white-space: pre;
+            display: inline-block;
+            cursor: default;
         }
 
         .input-box {
-            margin-top: 50px;
+            margin-top: 25px;
+            cursor: default;
         }
 
         input {
             background-color: transparent;
-            border: 2px solid #E7E5D9;
-            padding: 14px 20px;
-            font-size: 26px;
-            color: #E7E5D9;
-            border-radius: 8px;
-            width: 2	00px;
+            border: none;
+            border-bottom: 1px solid #FFFFFF;
+            padding: 14px 10px;
+            font-size: 16px;
+            color: #FFFFFF;
+            border-radius: 0;
+            width: 220px;
             text-align: center;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        input:focus {
+            outline: none;
         }
 
         input::placeholder {
-            color: #E7E5D9;
-            opacity: 0.5;
+            color: #FFFFFF;
+            opacity: 0.35;
             text-align: center;
-
+            letter-spacing: normal;
         }
 
-    .texto-opaco {
-      opacity: 0.5; /* Aplica opacidad solo al texto */
-    }
+        .texto-opaco {
+            opacity: 0.55;
+            font-size: 16px;
+        }
 
         button {
             margin-top: 25px;
-            padding: 12px 28px;
+            padding: 2px 6px;
             background-color: transparent;
-            border: 2.5px solid #E7E5D9;
-            color: #E7E5D9;
-            font-size: 22px;
-            border-radius: 15px;
+            border: none;
+            color: #FFFFFF;
+            font-size: 16px;
             cursor: pointer;
+            font-family: "Courier New", Courier, monospace;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: 0.2s;
         }
 
         button:hover {
-            background-color: #E7E5D9;
-            color: #1B1B1B;
+            background-color: #FFFFFF;
+            color: #000000;
         }
 
         /* Sección de números */
         #numeros {
             display: none;
-            margin-top: 50px;
+            margin-top: 40px;
+            min-height: 80vh;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 20px 0;
         }
 
         .lista {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             margin: auto;
             text-align: left;
             margin-top: 25px;
+            border-top: 1px solid #444444;
+            cursor: default;
         }
 
         .contacto {
-            padding: 25px 0px;
-            border-bottom: 2.5px solid #81807A;
+            padding: 16px 12px;
+            border-bottom: 1px solid #444444;
             display: flex;
             justify-content: space-between;
             cursor: pointer;
-            transition: 0.25s;
-            font-size: 22px;
-
+            transition: 0.2s;
+            font-size: 16px;
         }
 
         .contacto:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #FFFFFF;
+            color: #000000;
         }
 
-        /* Botón regresar */
-        #regresar {
-            margin-top: 45px;
-            padding: 12px 28px;
-            background-color: transparent;
-            border: 2.5px solid #1B1B1B;
-            color: #1B1B1B;
-            font-size: 22px;
-            border-radius: 15px;
-            cursor: pointer;
+        /* Sección Archivo / Casa */
+        .seccion-extra {
+            margin-top: 50px;
+            padding-top: 0;
+            cursor: default;
         }
 
-        #regresar:hover {
-            background-color: #1B1B1B;
-            color: #1B1B1B;
+        .seccion-extra a {
+            display: inline-block;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 2px 6px;
+            font-size: 16px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: 0.2s;
         }
 
-        /* Ruta a casa */
-        .ruta {
-            margin-top: 70px;
-            font-size: 48px;
-            font-weight: bold;
+        .seccion-extra a:hover {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+
+        .seccion-extra a.archivo {
+            text-transform: none;
+        }
+
+        .casa {
+            margin-top: 12px;
         }
     </style>
 
     <script>
-        function acceder() {
-            const clave = document.getElementById("pass").value;
+        let realPass = "";
 
-            if (clave === "654125875369") {
+        function maskInput(e) {
+            const input = e.target;
+            const val = input.value;
+
+            if (val.length > realPass.length) {
+                const added = val.slice(realPass.length).replace(/[^0-9]/g, "");
+                realPass = (realPass + added).slice(0, 12);
+            } else {
+                realPass = realPass.slice(0, val.length);
+            }
+
+            input.value = "*".repeat(realPass.length);
+        }
+
+        function acceder() {
+            if (realPass === "654125875369") {
                 document.getElementById("login").style.display = "none";
                 document.getElementById("numeros").style.display = "block";
             } else {
@@ -134,6 +193,7 @@
         }
 
         function regresar() {
+            realPass = "";
             location.reload();
         }
     </script>
@@ -142,79 +202,99 @@
 <body>
 
     <!-- PANTALLA DE CONTRASEÑA -->
-    <div id="login">
-        <h1><strong>Contraseña</strong></h1>
+    <div id="login" onclick="window.location.href='https://www.instagram.com/dhg1909'">
+        <pre class="ascii-title">
+   1NEEAEAEAEAEAEAEAEAEAEAEI   NAEAEAEAEAEI    NEAEAEAEAEAE   1EAEAEAEAEAEAEAEAEAEAEEIWv  
+ RAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAAAAI 
+RAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAAAAAI
+EAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAA1v                  
+EAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAA6                     
+EAAAAAAAAAAAAAAAAAAAAW   AAI   IAAAAAAAAAAAAAAAAAAAAAAAAAAE   1AAAAA    AAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAW   AAI   IAAAAAAAAAAA1909AAAAAAAAAAAE   1AAAAA   rAAAAAAAAAAAAAAAAAA
+EAAAAAAAAAAAAAAAAAAAAW   AAI   IAAAAAAAAAAAAAAAAAAAAAAAAAAE   1AAAAAv   VAAAAAAAAAAAAAAAAA
+RAAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAIv              IAAAAI
+ NAAAAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAA    AAAAAAAAAAAE   1AAAAAAAER6000000000WEAAAAI 
+   WIAAAAAAAAAAAAAAAAAAAAAAI   IAAAAAAAAAAE    IAAAAAAAAAAE   1AAAAAAAAAAAAAAAAAAAAAAERm  </pre>
 
-        <div class="input-box">
-            <input type="password" id="pass" placeholder="**************">
+        <div class="input-box" onclick="event.stopPropagation()">
+            <input type="text" id="pass" placeholder="Contraseña" oninput="maskInput(event)" autocomplete="off" inputmode="numeric" maxlength="12">
         </div>
 
-        <button onclick="acceder()">Entrar</button>
+        <div onclick="event.stopPropagation()">
+            <button onclick="acceder()">Entrar</button>
+        </div>
     </div>
 
     <!-- PANTALLA DE NÚMEROS -->
-    <div id="numeros">
-        <h1><strong>Números</strong></h1>
+    <div id="numeros" onclick="regresar()">
+        <h1>Contactos</h1>
 
         <div class="lista">
 
-            <div class="contacto" onclick="location.href='tel:+522283123524'">
-                <span><strong>David</strong></span><span><span class="texto-opaco">+52 228 312 3524</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522283123524'">
+                <span><strong>David</strong></span><span class="texto-opaco">+52 228 312 3524</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522281567186'">
-                <span><strong>Adriana</strong></span><span><span class="texto-opaco">+52 228 156 7186</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522281567186'">
+                <span><strong>Adriana</strong></span><span class="texto-opaco">+52 228 156 7186</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522283611513'">
-                <span><strong>Mónica</strong></span><span><span class="texto-opaco">+52 228 361 1513</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522283611513'">
+                <span><strong>Mónica</strong></span><span class="texto-opaco">+52 228 361 1513</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522299848615'">
-                <span><strong>Eduardo</strong></span><span><span class="texto-opaco">+52 229 984 8615</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522299848615'">
+                <span><strong>Eduardo</strong></span><span class="texto-opaco">+52 229 984 8615</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522284106817'">
-                <span><strong>Sergio</strong></span><span><span class="texto-opaco">+52 228 410 6817</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522284106817'">
+                <span><strong>Sergio</strong></span><span class="texto-opaco">+52 228 410 6817</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522281245180'">
-                <span><strong>Eduardo</strong></span><span><span class="texto-opaco">+52 228 124 5180</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522281245180'">
+                <span><strong>Eduardo</strong></span><span class="texto-opaco">+52 228 124 5180</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522282972364'">
-                <span><strong>Héctor</strong></span><span><span class="texto-opaco">+52 228 297 2364</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522282972364'">
+                <span><strong>Héctor</strong></span><span class="texto-opaco">+52 228 297 2364</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522281476572'">
-                <span><strong>Óscar</strong></span><span><span class="texto-opaco"> +52 228 147 6572</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522281476572'">
+                <span><strong>Óscar</strong></span><span class="texto-opaco">+52 228 147 6572</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522282884056'">
-                <span><strong>Yolanda</strong></span><span><span class="texto-opaco">+52 228 288 4056</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522283632102'">
+                <span><strong>David</strong></span><span class="texto-opaco">+52 228 363 2102</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522281257340'">
-                <span><strong>Aldo</strong></span><span><span class="texto-opaco">+52 228 125 7340</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522281257340'">
+                <span><strong>Aldo</strong></span><span class="texto-opaco">+52 228 125 7340</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522281781492'">
-                <span><strong>Betsabe</strong></span><span><span class="texto-opaco">+52 228 178 1492</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522281781492'">
+                <span><strong>Betsabe</strong></span><span class="texto-opaco">+52 228 178 1492</span>
             </div>
 
-            <div class="contacto" onclick="location.href='tel:+522283412324'">
-                <span><strong>Gemma</strong></span><span><span class="texto-opaco">+52 228 341 2324</span></span>
+            <div class="contacto" onclick="event.stopPropagation(); location.href='tel:+522283412324'">
+                <span><strong>Gemma</strong></span><span class="texto-opaco">+52 228 341 2324</span>
             </div>
 
         </div>
 
-        <div class="ruta"><strong>
-            <a href="https://www.google.com.mx/maps/dir//19.497249,-96.852978" style="color:#E7E5D9; text-decoration:none;">
-                Ruta a casa
+        <div class="seccion-extra">
+            <a class="archivo" href="https://drive.google.com/file/d/1h4k9gthAi7zyb1s84F9UYYbuzjpWoh0P/view?usp=sharing" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                Archivo 1909
             </a>
-        </strong></div>
 
-        <button id="regresar" onclick="regresar()">Volver</button>
+            <div class="casa">
+                <a href="https://www.google.com.mx/maps/dir//19.497249,-96.852978" onclick="event.stopPropagation()">
+                    Casa
+                </a>
+            </div>
+        </div>
 
     </div>
 
